@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>80644477-94c6-4e24-8b2b-e2420d704688</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>unet\dilated - Copy.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>TF_Build</Name>
+    <RootNamespace>TF_Build</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AutoEncoder.py" />
+    <Compile Include="Capsule.py" />
+    <Compile Include="environment\Environment.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="environment\toy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FasterRCNN\anchor_target_layer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FasterRCNN\bbox_transform.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FasterRCNN\faster_r_cnn.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FasterRCNN\generate_anchors.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FasterRCNN\nms_wrapper.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FasterRCNN\proposal_layer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FasterRCNN\proposal_target_layer.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="fcn.py" />
+    <Compile Include="fcn_rgb.py" />
+    <Compile Include="GAN\discriminator.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GAN\wgan_gp.py" />
+    <Compile Include="GAN\wgan.py" />
+    <Compile Include="GAN\gan.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GAN\generator.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GMM.py" />
+    <Compile Include="SPIRAL\A2C.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SPIRAL\actor.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SPIRAL\async_policy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SPIRAL\critic.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SPIRAL\policy.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SPIRAL\policy_A2C.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SPIRAL\policy_A3C.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="unet\att_R2Unet.py" />
+    <Compile Include="FastRCNN\fast_r_cnn.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tool\roi_pooling.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="dataset\voc_dataset.py" />
+    <Compile Include="dataset\mnist_dataset.py" />
+    <Compile Include="dataset\flower_dataset.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tool\metric.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="unet\cnn - Copy.py" />
+    <Compile Include="unet\dilated - Copy.py" />
+    <Compile Include="unet\dilated.py" />
+    <Compile Include="unet\R2Unet.py" />
+    <Compile Include="tool\block.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="module.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SPPNet.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tool\tensorflow_tools.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="test.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TF_Build.py" />
+    <Compile Include="tool\tool.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="unet\att_unet.py" />
+    <Compile Include="unet\cnn.py" />
+    <Compile Include="unet\unet.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dataset\" />
+    <Folder Include="FastRCNN\" />
+    <Folder Include="FasterRCNN\" />
+    <Folder Include="GAN\" />
+    <Folder Include="environment\" />
+    <Folder Include="SPIRAL\" />
+    <Folder Include="tool\" />
+    <Folder Include="unet\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FasterRCNN\cython_bbox.c" />
+    <Content Include="FasterRCNN\cython_bbox.cp36-win_amd64.pyd" />
+    <Content Include="FasterRCNN\cython_bbox.pyx" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
+  <Import Condition="!Exists($(PtvsTargetsFile))" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>
