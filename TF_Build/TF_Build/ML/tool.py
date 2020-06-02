@@ -54,6 +54,11 @@ def margin_2D_point(w, b, p):
 
     return x, y
 
+def linear_kernel(x0, x1, zeta=1., gamma=1.):
+    assert zeta >= 0, "zeta error"
+    assert gamma > 0, "gamma error"
+
+    return zeta + gamma * np.dot(x0, np.transpose(x1))
 
 def polynomial_kernel(x0, x1, zeta=1., gamma=1., Q=2):
     assert zeta >= 0, "zeta error"

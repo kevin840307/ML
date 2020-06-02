@@ -4,15 +4,39 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_circles  
 from sklearn.datasets import make_moons 
-from tool import margin_2D_point, gaussian_kernel, make_meshgrid
+from tool import margin_2D_point, gaussian_kernel, polynomial_kernel, linear_kernel, make_meshgrid
+
+class Kernel():
+    def __init__(self, gamma=1., zeta=1., Q=2):
+        assert zeta >= 0, "zeta error"
+        assert gamma > 0, "gamma error"
+
+        self.zeta = zeta
+        self.gamma = gamma
+        self.Q = Q
+
+    def rbf(self, x0, x1):
+        return gaussian_kernel(x0, x1, gamma=self.gamma)
+
+    def poly(self, x0, x1):
+        return polynomial_kernel(x0, x1, zeta=self.zeta, gamma=self.gamma, Q=self.Q)
+
+    def linear(self, x0, x1):
+        return linear_kernel(x0, x1, zeta=self.zeta, gamma=self.gamma)
+
 
 class SVC():
-    def __init__(self, gamma=1., C=1, zeta=1., Q=2, kernel='rbf'):
+    def __init__(self, C=1, gamma=1., zeta=1., Q=2, kernel='rbf'):
+        kernel_class = Kernel(gamma=gamma, zeta=zeta, Q=Q)
+        assert kernel != None and hasattr(kernel_class, kernel)
+
+        self.kernel_func = getattr(kernel_class, kernel)
+        self.kernel = kernel
         self.gamma = gamma
         self.C = C
         self.zeta = zeta
         self.Q = Q
-        self.kernel = kernel
+        
 
     def fit(self, x, y):
         '''
@@ -62,7 +86,7 @@ class SVC():
         x_len = len(x)
         dimension = len(x[0])
         y = np.reshape(y, (-1, 1))
-        kernel_x = gaussian_kernel(x, x, self.gamma)
+        kernel_x = self.kernel_func(x, x)
 
         Q =  cvxopt.matrix(np.dot(y, y.T) * kernel_x)
         p = cvxopt.matrix(-np.ones(x_len))
@@ -80,7 +104,7 @@ class SVC():
         self.__support_vectors = x[self.__free_sv,:]
         self.__a_y = np.reshape(self.__alphas[self.__free_sv], (1, -1)) * np.reshape(y[self.__free_sv], (1, -1))
         self.__b =  np.sum(y[self.__free_sv]) 
-        self.__b -= np.sum(self.__a_y * gaussian_kernel(x[self.__free_sv], self.__support_vectors, self.gamma))
+        self.__b -= np.sum(self.__a_y * self.kernel_func(x[self.__free_sv], self.__support_vectors))
         self.__b /= len(self.__support_vectors)
 
         '''
@@ -92,7 +116,7 @@ class SVC():
 
 
     def predict(self, x):
-        pred = np.sum(self.__a_y * gaussian_kernel(x, self.__support_vectors, self.gamma), axis=-1) + self.__b
+        pred = np.sum(self.__a_y * self.kernel_func(x, self.__support_vectors), axis=-1) + self.__b
         pred_sign = np.sign(pred)
         return pred_sign
 
@@ -121,7 +145,7 @@ if __name__ == '__main__':
     Y = np.array(Y).astype(float)
     #np.random.shuffle(Y)
 
-    model = SVC(1, 2147483647)
+    model = SVC(C=2147483647, zeta=0.1, gamma=0.04, Q=3, kernel='poly')
     model.fit(X, Y)
     model.info()
     print(model.predict(X))
