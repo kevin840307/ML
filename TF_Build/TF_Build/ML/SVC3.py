@@ -74,9 +74,9 @@ class SVC():
         self.__sv = self.__alphas > 1e-6
         self.__w = np.sum(np.array(result['x'] * y * x), axis=0).reshape(-1)
         self.__support_vectors = x[self.__sv,:]
-        self.__a_y = np.reshape(self.__alphas[self.__sv], (1, -1)) * np.reshape(y[self.__sv], (1, -1))
+        self.__a_y = np.reshape(self.__alphas[self.__sv], (-1, 1)) * np.reshape(y[self.__sv], (-1, 1))
         self.__b =  np.sum(y[self.__sv]) 
-        self.__b -= np.sum(self.__a_y * polynomial_kernel(x[self.__sv], self.__support_vectors, self.zeta, self.gamma, self.Q))
+        self.__b -= np.sum(self.__a_y * polynomial_kernel(self.__support_vectors, x[self.__sv], self.zeta, self.gamma, self.Q))
         self.__b /= len(self.__support_vectors)
 
         '''
@@ -88,7 +88,7 @@ class SVC():
 
 
     def predict(self, x):
-        pred = np.sum(self.__a_y * polynomial_kernel(x, self.__support_vectors, self.zeta, self.gamma, self.Q), axis=-1) + self.__b
+        pred = np.sum(self.__a_y * polynomial_kernel(self.__support_vectors, x, self.zeta, self.gamma, self.Q), axis=0) + self.__b
         pred_sign = np.sign(pred)
         return pred_sign
 
@@ -116,7 +116,8 @@ if __name__ == '__main__':
     X = np.array(X).astype(float) * 10
     Y = np.array(Y).astype(float)
 
-    model = SVC(0.1, 0.04, 2)
+    #model = SVC(0.1, 0.04, 2)
+    model = SVC(1, 1, 2)
     model.fit(X, Y)
     model.info()
     print(model.predict(X))

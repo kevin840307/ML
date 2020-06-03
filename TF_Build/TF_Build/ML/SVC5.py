@@ -75,9 +75,9 @@ class SVC():
         self.__free_sv = (self.__alphas > 1e-6) & (self.__alphas < self.C)
         self.__w = np.sum(np.array(result['x'] * y * x), axis=0).reshape(-1)
         self.__support_vectors = x[self.__free_sv,:]
-        self.__a_y = np.reshape(self.__alphas[self.__free_sv], (1, -1)) * np.reshape(y[self.__free_sv], (1, -1))
+        self.__a_y = np.reshape(self.__alphas[self.__free_sv], (-1, 1)) * np.reshape(y[self.__free_sv], (-1, 1))
         self.__b =  np.sum(y[self.__free_sv]) 
-        self.__b -= np.sum(self.__a_y * gaussian_kernel(x[self.__free_sv], self.__support_vectors, self.gamma))
+        self.__b -= np.sum(self.__a_y * gaussian_kernel(self.__support_vectors, x[self.__free_sv], self.gamma))
         self.__b /= len(self.__support_vectors)
 
         '''
@@ -89,7 +89,7 @@ class SVC():
 
 
     def predict(self, x):
-        pred = np.sum(self.__a_y * gaussian_kernel(x, self.__support_vectors, self.gamma), axis=-1) + self.__b
+        pred = np.sum(self.__a_y * gaussian_kernel(self.__support_vectors, x, self.gamma), axis=0) + self.__b
         pred_sign = np.sign(pred)
         return pred_sign
 

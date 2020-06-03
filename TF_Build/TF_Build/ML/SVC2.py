@@ -62,6 +62,8 @@ class SVC():
         self.__w = np.sum(np.array(result['x'] * y * x), axis=0).reshape(-1)
         self.__support_vectors = x[self.__sv,:]
         self.__b = (1./ y[self.__sv][0]) - np.dot(self.__w, x[self.__sv, :][0])
+
+        print(self.__w.shape)
         #self.__b = ((1./ y[self.__sv]) 
         #          - np.sum(
         #              self.__w.reshape(-1,1).T * x[self.__sv, :],
