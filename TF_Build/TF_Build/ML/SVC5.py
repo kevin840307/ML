@@ -71,13 +71,16 @@ class SVC():
         result = cvxopt.solvers.qp(Q, p, A, c, B, b)
 
         self.__alphas = np.array(result['x']).flatten()
-        self.__sv = self.__alphas > 1e-6
-        self.__free_sv = (self.__alphas > 1e-6) & (self.__alphas < self.C)
         self.__w = np.sum(np.array(result['x'] * y * x), axis=0).reshape(-1)
+
+        self.__sv = self.__alphas > 1e-6
         self.__support_vectors = x[self.__sv,:]
-        self.__free_support_vectors = x[self.__free_sv,:]
         self.__a_y = np.reshape(self.__alphas[self.__sv], (-1, 1)) * np.reshape(y[self.__sv], (-1, 1))
+
+        self.__free_sv = (self.__alphas > 1e-6) & (self.__alphas < self.C)
+        self.__free_support_vectors = x[self.__free_sv,:]
         self.__free_a_y = np.reshape(self.__alphas[self.__free_sv], (-1, 1)) * np.reshape(y[self.__free_sv], (-1, 1))
+
         self.__b =  np.sum(y[self.__free_sv]) 
         self.__b -= np.sum(self.__free_a_y * gaussian_kernel(self.__free_support_vectors, x[self.__free_sv], self.gamma))
         self.__b /= len(self.__free_support_vectors)
