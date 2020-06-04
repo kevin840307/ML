@@ -121,9 +121,9 @@ if __name__ == '__main__':
     Y[Y == 0] = -1
     X = np.array(X).astype(float) * 10
     Y = np.array(Y).astype(float)
-    #np.random.shuffle(Y)
+    np.random.shuffle(Y)
 
-    model = SVC(1, 2147483647)
+    model = SVC(1, 0.1)
     model.fit(X, Y)
     model.info()
     print(model.predict(X))
