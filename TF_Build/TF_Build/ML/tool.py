@@ -68,7 +68,6 @@ def polynomial_kernel(x0, x1, zeta=1., gamma=1., Q=2):
 
 
 def gaussian_kernel(x0, x1, gamma=1.):
-
     assert gamma > 0, "gamma error"
 
     return np.exp(-gamma * np.linalg.norm(np.expand_dims(x0, axis=1) - x1, axis=-1) ** 2)
